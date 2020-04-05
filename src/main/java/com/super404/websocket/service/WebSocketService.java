@@ -29,4 +29,16 @@ public class WebSocketService {
     }
 
 
+    /**
+     * 获取系统信息，推送给客户端
+     */
+    public void sendServerInfo() {
+        int processors = Runtime.getRuntime().availableProcessors();
+        long freeMemory = Runtime.getRuntime().freeMemory();
+        long maxMemory = Runtime.getRuntime().maxMemory();
+
+        String message = String.format("服务器可用处理器：%s；虚拟机空闲内存大小：%s；最大内存大小：%s",
+                processors,freeMemory,maxMemory);
+        template.convertAndSend("/topic/server_info", new OutMessage(message));
+    }
 }
