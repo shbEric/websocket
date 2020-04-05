@@ -1,5 +1,6 @@
 package com.super404.websocket.config;
 
+import com.super404.websocket.interceptor.HttpHandShakeInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -18,8 +19,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
 
-        //       添加端点                                 允许访问的域名，*表示所有   用SockJs连接
-        registry.addEndpoint("/endpoint-websocket").setAllowedOrigins("*").withSockJS();
+        //       添加端点
+        registry.addEndpoint("/endpoint-websocket")
+                //添加拦截器                                     允许访问的域名，*表示所有   用SockJs连接
+                .addInterceptors(new HttpHandShakeInterceptor()).setAllowedOrigins("*").withSockJS();
 
     }
 

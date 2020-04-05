@@ -12,6 +12,7 @@ public class GameInfoController {
     @MessageMapping("/v1/chat")
     @SendTo("/topic/game_chat")
     public OutMessage gameInfo(InMessage message){
+        System.out.println("GameInfoController->gameInfo");
 
         return new OutMessage(message.getContent());
 
