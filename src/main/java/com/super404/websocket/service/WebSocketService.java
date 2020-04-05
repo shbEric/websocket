@@ -23,5 +23,10 @@ public class WebSocketService {
 
     }
 
+    public void sendChatMessage(InMessage message) {
+        template.convertAndSend("/chat/single/"+message.getTo(),
+                new OutMessage(message.getFrom()+"发送："+message.getContent()));
+    }
+
 
 }

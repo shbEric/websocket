@@ -4,8 +4,10 @@ import java.util.Date;
 
 public class InMessage {
 
+    //从哪里来
     private String from;
 
+    //到哪里去
     private String to;
 
     private String content;
