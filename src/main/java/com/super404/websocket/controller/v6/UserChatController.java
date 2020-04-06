@@ -3,6 +3,7 @@ package com.super404.websocket.controller.v6;
 import com.super404.websocket.model.User;
 import com.super404.websocket.service.WebSocketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,6 +55,14 @@ public class UserChatController {
             return "redirect:/v6/error.html";
         }
 
+    }
+
+    /**
+     * 用于定时给客户端推送在线用户
+     */
+    @Scheduled(fixedRate = 2000)
+    public void onlineUser(){
+        ws.sendOnlineUser(onlineUser);
     }
 
 

@@ -2,6 +2,7 @@ package com.super404.websocket.service;
 
 import com.super404.websocket.model.InMessage;
 import com.super404.websocket.model.OutMessage;
+import com.super404.websocket.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -57,5 +58,18 @@ public class WebSocketService {
 
             template.convertAndSend("/topic/stock_info",new OutMessage(msg));
         }
+    }
+
+    /**
+     * 发送在线用户
+     * @param onlineUser
+     */
+    public void sendOnlineUser(Map<String, User> onlineUser) {
+        String msg="";
+        for (Map.Entry<String, User> entry: onlineUser.entrySet()){
+            msg = msg.concat(entry.getValue().getUsername() + " || ");
+        }
+        template.convertAndSend("/topic/onlineuser", new OutMessage(msg));
+
     }
 }
