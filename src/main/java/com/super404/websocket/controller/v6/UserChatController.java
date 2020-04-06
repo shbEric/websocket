@@ -1,13 +1,14 @@
 package com.super404.websocket.controller.v6;
 
+import com.super404.websocket.model.InMessage;
 import com.super404.websocket.model.User;
 import com.super404.websocket.service.WebSocketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
@@ -66,6 +67,20 @@ public class UserChatController {
     }
 
 
+    /**
+     * 聊天接口
+     *
+     * @param message 消息体
+     * @param headerAccessor 消息头访问器，通过这个获取sessionId
+     */
+    @MessageMapping("/v6/chat")
+    public void topicChat(InMessage message, SimpMessageHeaderAccessor headerAccessor){
+        String sessionId = headerAccessor.getSessionAttributes().get("sessionId").toString();
+        User user = onlineUser.get(sessionId);
 
+        message.setFrom(user.getUsername());
+        ws.sendTopicChat(message);
 
+    }
+    
 }

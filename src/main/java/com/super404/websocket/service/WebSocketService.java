@@ -72,4 +72,15 @@ public class WebSocketService {
         template.convertAndSend("/topic/onlineuser", new OutMessage(msg));
 
     }
+
+    /**
+     * v6:用于多人聊天
+     *
+     * @param message
+     */
+    public void sendTopicChat(InMessage message) {
+        String msg = message.getFrom() +" 发送："+ message.getContent();
+        template.convertAndSend("/topic/chat", new OutMessage(msg));
+
+    }
 }
